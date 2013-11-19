@@ -31,7 +31,7 @@ namespace NetUtil.App.Lib.Network
         /// <summary>
         /// 16 bit (2 bytes). Packet length = header length + message length.
         /// </summary>
-        ushort PacketLength;
+        ushort PacketLength { get; set; }
 
         /// <summary>
         /// 3 bits (1 byte) for Flags. 13 bits for Fragment Offset.
@@ -39,27 +39,29 @@ namespace NetUtil.App.Lib.Network
         ///     Bit 1: (DF) 0 = May Fragment,  1 = Don't Fragment.
         ///     Bit 2: (MF) 0 = Last Fragment, 1 = More Fragments.
         /// </summary>
-        ushort FlagsAndFragmentOffset;
-        ushort Identification;
+        ushort FlagsAndFragmentOffset { get; set; }
+        ushort Identification { get; set; }
 
         /// <summary>
         /// 8 bits (1 byte). Time to Live.
         /// </summary>
-        byte TTL;
+        byte TTL { get; set; }
 
         /// <summary>
         /// 8 bits. Indicates the higher level protocol used in the data portion of the packet.
         /// 
         /// See: http://www.ietf.org/rfc/rfc790.txt
         /// </summary>
-        byte Protocol;
+        byte Protocol { get; set; }
+
+        public NetworkProtocol NetworkProtocol { get; set; }
 
         /// <summary>
         /// 32 bits. Not normally used. If used, HeaderLength will be greater than 5 32-bit words.
         /// </summary>
-        uint Options;
-        uint SourceAddress;
-        uint DestinationAddress;
+        uint Options { get; set; }
+        uint SourceAddress { get; set; }
+        uint DestinationAddress { get; set; }
 
 
         public override void Read(byte[] buffer, int byteCount)

@@ -17,7 +17,7 @@ namespace NetUtil.App.Lib.Network
         ushort DestinationPort { get; set; }
         ushort DataOffsetAndFlags { get; set; }
         ushort Window { get; set; }
-        ushort UrgentPointer;
+        ushort UrgentPointer { get; set; }
 
         uint SequenceNumber { get; set; }
         uint AcknowledgementNumber { get; set; }
