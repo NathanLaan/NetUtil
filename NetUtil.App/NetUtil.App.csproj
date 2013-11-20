@@ -55,6 +55,7 @@
     <Compile Include="Lib\Network\Header\TCPPacketHeader.cs" />
     <Compile Include="Lib\Network\NetworkProtocol.cs" />
     <Compile Include="Lib\Network\Header\PacketHeader.cs" />
+    <Compile Include="Lib\Network\NetworkTrafficListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AppForm.resx">
       <DependentUpon>AppForm.cs</DependentUpon>
