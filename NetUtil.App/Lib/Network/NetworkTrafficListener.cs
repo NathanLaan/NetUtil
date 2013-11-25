@@ -7,10 +7,10 @@ namespace NetUtil.App.Lib.Network
 {
     class NetworkTrafficListener
     {
-        
+
         private Socket mainSocket;
-        
-        private byte[] byteData = new byte[4096];
+
+        private byte[] packetData = new byte[4096];
         private bool networkTrafficListenerActive = false;
 
         public string NetworkInterface { get; set; }
@@ -86,12 +86,13 @@ namespace NetUtil.App.Lib.Network
                                  optionIncomingValue,
                                  optionOutgoingValue);
 
-            //Start receiving the packets asynchronously
-            mainSocket.BeginReceive(byteData, 
-                0, 
-                byteData.Length, 
+            // Start receiving network packets asynchronously
+            // Based on MSDN sample code: http://msdn.microsoft.com/en-us/library/bbx2eya8(v=vs.90).aspx
+            mainSocket.BeginReceive(packetData,
+                0,
+                packetData.Length,
                 SocketFlags.None,
-                new AsyncCallback(this.NetworkTrafficReceived), 
+                new AsyncCallback(this.ReceiveCallback),
                 null);
         }
 
@@ -101,28 +102,25 @@ namespace NetUtil.App.Lib.Network
             mainSocket.Dispose();
         }
 
-        private void NetworkTrafficReceived(IAsyncResult ar)
+        private void ReceiveCallback(IAsyncResult asyncResult)
         {
             try
             {
-                int numBytesReceived = mainSocket.EndReceive(ar);
+                int numBytesReceived = mainSocket.EndReceive(asyncResult);
 
                 //
-                // TODO
-                //
-                //Parse(byteData, nReceived);
+                this.ParsePacketData(this.packetData, numBytesReceived);
 
                 if (this.IsListening)
                 {
-                    byteData = new byte[4096];
+                    this.packetData = new byte[4096];
 
-                    //Another call to BeginReceive so that we continue to receive the incoming
-                    //packets
-                    mainSocket.BeginReceive(byteData, 
-                        0, 
-                        byteData.Length, 
+                    //Another call to BeginReceive so that we continue to receive the incoming packets
+                    mainSocket.BeginReceive(this.packetData,
+                        0,
+                        this.packetData.Length,
                         SocketFlags.None,
-                        new AsyncCallback(NetworkTrafficReceived), 
+                        new AsyncCallback(ReceiveCallback),
                         null);
                 }
             }
@@ -134,9 +132,19 @@ namespace NetUtil.App.Lib.Network
             }
         }
 
+        private void ParsePacketData(byte[] packetData, int numBytesReceived)
+        {
 
 
-        
+
+        }
+
+
+
+        //
+        // TODO: Event Listener, fired on packet receive
+        //
+
 
 
 
