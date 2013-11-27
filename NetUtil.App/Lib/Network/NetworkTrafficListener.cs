@@ -142,9 +142,20 @@ namespace NetUtil.App.Lib.Network
 
 
         //
-        // TODO: Event Listener, fired on packet receive
+        // TODO: Event code
         //
 
+        public delegate void NetworkTrafficEvent(byte[] data);
+
+        public event NetworkTrafficEvent NetworkTrafficReceived;
+
+        private void OnNetworkTrafficReceived()
+        {
+            if (this.NetworkTrafficReceived != null)
+            {
+                this.NetworkTrafficReceived(this.packetData);
+            }
+        }
 
 
 
